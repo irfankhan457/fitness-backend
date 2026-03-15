@@ -1,5 +1,4 @@
 package com.fitness.user;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,14 +13,20 @@ public class AuthController {
     }
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request){
-        if(request.getEmail().equals("admin")
-                && request.getPassword().equals("admin")){
-            return ResponseEntity.ok(Map.of("token","dummy-jwt-token"));
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.ok(authService.login(request));
     }
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request){
-        return ResponseEntity.ok("User registered");
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<?> register(@RequestBody RegisterRequest request){
+//        return ResponseEntity.ok("User registered");
+//    }
+@PostMapping("/register")
+public ResponseEntity<?> register(@RequestBody Users request) {
+    Users created = authService.register(request);
+    return ResponseEntity.ok(Map.of(
+            "id", created.getId(),
+            "email", created.getEmail(),
+            "role", created.getRole(),
+            "message", "User registered"
+    ));
+}
 }

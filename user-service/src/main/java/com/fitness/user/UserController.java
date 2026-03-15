@@ -12,8 +12,12 @@ private final UserRepository repo;
 public UserController(UserRepository repo){this.repo=repo;}
 
 @PostMapping("/register")
-public Users register(@RequestBody Users u){return repo.save(u);}
+public Users register(@RequestBody Users u){
+    return repo.save(u);
+}
 
 @GetMapping
-public java.util.List<Users> all(){return repo.findAll();}
+public java.util.List<Users> all(){
+    return repo.findAll();
+}
 }
